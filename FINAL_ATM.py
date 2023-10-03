@@ -3,7 +3,7 @@ from datetime import datetime as dt
 
 
 def wait_3_second():
-    for i in range(3):
+    for i in range(0):
         print('.', end='')
         sleep(1)
     print()
@@ -48,9 +48,8 @@ class ATM(BankCard):
     def withdraw(self, money):
         if money > self.__balance:
             wait_3_second()
-            print('Недостаточно средств на счете!')
             self.operations_history.append(f'{dt.now()}: Отказ в выдаче наличных на сумму {money}р.')
-            return False
+            return 'Недостаточно средств на счете!'
         if 0 < money < self.__balance:
             self.__balance -= money
             self.operations_history.append(f'{dt.now()}: Выдача наличных на сумму {money}р.')
@@ -64,56 +63,56 @@ class ATM(BankCard):
             print('Пожалуйста подождите! Деньги пересчитываются')
             wait_3_second()
             self.__balance += money
-            print('\nУспешно! Деньги зачислены на ваш счет!\n')
-            return sleep(2)
+            return '\nУспешно! Деньги зачислены на ваш счет!\n'
 
     def operations_history_chek(self):
         if len(self.operations_history) == 0:
             wait_3_second()
-            return print('История операций чиста')
+            return 'История операций чиста'
         wait_3_second()
-        return print(self.operations_history)
+        return self.operations_history
 
-
-def operations():
-    match int(input('1: Снять\n2: Внести\n3: Баланс\n4: История операций\n5: Выход\nВыберите номер операцию: ')):
-        case 1:
-            b.withdraw(int(input('Введите сумму которую хотите снять: ')))
-
-            if int(input('\n1: Продолжить операции с картой\n2: Выход\nВыберите действие : ') + '\n') == 2:
-                return
-            else:
-                operations()
-        case 2:
-            b.add_money(int(input('Внесите сумму в банкомат: ') + '\n'))
-            if int(input('\n1: Продолжить операции с картой\n2: Выход\nВыберите действие : ') + '\n') == 2:
-                return
-            else:
-                operations()
-        case 3:
-            print('\n' + b.find_out_balance())
-            sleep(2)
-            if int(input('\n1: Продолжить операции с картой\n2: Выход\nВыберите действие : ') + '\n') == 2:
-                return
-            else:
-                operations()
-        case 4:
-            b.operations_history_chek()
-            if int(input('\n1: Продолжить операции с картой\n2: Выход\nВыберите действие : ') + '\n') == 2:
-                return
-            else:
-                operations()
-        case 5:
-            return print('Досвидания!')
-        case _:
-            print('\nВведена неподдерживаемая команда! Выберите операцию из списка\n')
-            sleep(2)
-            operations()
+class ATM_Display():
+    def operations(self):
+        match int(input('1: Снять\n2: Внести\n3: Баланс\n4: История операций\n5: Выход\nВыберите номер операцию: ')):
+            case 1:
+                print(b.withdraw(int(input('Введите сумму которую хотите снять: '))))
+                if int(input('\n1: Продолжить операции с картой\n2: Выход\nВыберите действие : ') + '\n') == 2:
+                    return
+                else:
+                    self.operations()
+            case 2:
+                print(b.add_money(int(input('Внесите сумму в банкомат: ') + '\n')))
+                if int(input('\n1: Продолжить операции с картой\n2: Выход\nВыберите действие : ') + '\n') == 2:
+                    return
+                else:
+                    self.operations()
+            case 3:
+                print('\n' + b.find_out_balance())
+                sleep(2)
+                if int(input('\n1: Продолжить операции с картой\n2: Выход\nВыберите действие : ') + '\n') == 2:
+                    return
+                else:
+                    self.operations()
+            case 4:
+                print(b.operations_history_chek())
+                if int(input('\n1: Продолжить операции с картой\n2: Выход\nВыберите действие : ') + '\n') == 2:
+                    return
+                else:
+                    self.operations()
+            case 5:
+                return print('Досвидания!')
+            case _:
+                print('\nВведена неподдерживаемая команда! Выберите операцию из списка\n')
+                sleep(2)
+                self.operations()
 
 
 bank_card = BankCard()
 b = ATM(bank_card.check_pin(input("Введите PIN-код: ")))
-operations()
+c = ATM_Display()
+c.operations()
+
 
 #pin - 123
 
