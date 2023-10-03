@@ -70,9 +70,9 @@ class ATM(BankCard):
     def operations_history_chek(self):
         if len(self.operations_history) == 0:
             wait_3_second()
-            return 'История операций чиста'
+            return print('История операций чиста')
         wait_3_second()
-        return self.operations_history
+        return print(self.operations_history)
 
 
 def operations():
@@ -102,7 +102,7 @@ def operations():
             if int(input('\n1: Продолжить операции с картой\n2: Выход\nВыберите действие : ') + '\n') == 2:
                 return
             else:
-                return
+                operations()
         case 5:
             return print('Досвидания!')
         case _:
@@ -116,5 +116,6 @@ b = ATM(bank_card.check_pin(input("Введите PIN-код: ")))
 operations()
 
 #pin - 123
+
 
 
